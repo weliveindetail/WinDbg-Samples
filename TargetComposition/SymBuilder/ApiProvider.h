@@ -992,7 +992,7 @@ private:
                _In_ ComPtr<VariableSymbol>& spVariableSymbol,
                _In_ ULONG64 rangeOffset,
                _In_ ULONG64 rangeSize,
-               _In_ std::wstring locDesc);
+               _In_ std::wstring locExpr);
 
     // GetIterator():
     //
@@ -1042,7 +1042,7 @@ private:
 
     // [Get/Set]Location
     //
-    // Gets/sets the location of the live range as a string description.
+    // Gets/sets the location of the live range as a string expression.
     //
     std::wstring GetLocation(_In_ const Object& liveRangeObject,
                              _In_ LiveRangeInformation const& liveRangeInfo);

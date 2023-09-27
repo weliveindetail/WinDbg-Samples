@@ -338,11 +338,11 @@ and where that variable is located.  It also contains several APIs:
 
     LiveRanges Object
     -----------------
-        Add               [Add(rangeOffset, rangeSize, locDesc) - Adds a new live range for the variable within its containing function.  All offsets are function relative]
+        Add               [Add(rangeOffset, rangeSize, locExpr) - Adds a new live range for the variable within its containing function.  All offsets are function relative]
 
 Note that the live range offsets are function relative and must be within the bounds of the function.  The present
-extension also verifies that no two live ranges for the same variable overlap.  Location descriptions given
-by the "locDesc" string can take one of several forms:
+extension also verifies that no two live ranges for the same variable overlap.  Location expressions given
+by the "locExpr" string can take one of several forms:
 
     - A flat hex virtual address  (e.g.: 7ffc1840)
     - A register location (e.g.: "@rcx")
@@ -355,7 +355,7 @@ Each live range has the following properties and methods:
     ----------------
         Offset            [The function relative offset of the start of the live range]
         Size              [The size (in code bytes) of the live range]
-        Location          [A string description of the location of the variable in this live range]
+        Location          [A string expression of the location of the variable in this live range]
 
         Delete            [Delete() - Deletes the live range]
 

@@ -2158,14 +2158,14 @@ Object LiveRangesObject::Add(_In_ const Object& /*liveRangesObject*/,
                              _In_ ComPtr<VariableSymbol>& spVariableSymbol,
                              _In_ ULONG64 rangeOffset,
                              _In_ ULONG64 rangeSize,
-                             _In_ std::wstring locDesc)
+                             _In_ std::wstring locExpr)
 {
     auto pManager = spVariableSymbol->InternalGetSymbolSet()->GetSymbolBuilderManager();
 
     SvcSymbolLocation loc;
-    if (FAILED(pManager->ParseLocation(locDesc.c_str(), &loc)))
+    if (FAILED(pManager->ParseLocation(locExpr.c_str(), &loc)))
     {
-        throw std::invalid_argument("Unable to parse location description");
+        throw std::invalid_argument("Unable to parse location expression");
     }
 
     ULONG64 uniqueId;
@@ -2222,10 +2222,10 @@ std::wstring LiveRangeObject::ToString(_In_ const Object& /*liveRangeObject*/,
     str += liveRangeInfo.Variable->InternalGetName();
     str += L" = ";
 
-    std::wstring liveRangeDesc;
-    CheckHr(pManager->LocationToString(&pLiveRange->VariableLocation, &liveRangeDesc));
+    std::wstring liveRangeExpr;
+    CheckHr(pManager->LocationToString(&pLiveRange->VariableLocation, &liveRangeExpr));
 
-    str += liveRangeDesc;
+    str += liveRangeExpr;
     return str;
 }
 
@@ -2292,13 +2292,13 @@ std::wstring LiveRangeObject::GetLocation(_In_ const Object& /*liveRangeObject*/
         throw std::runtime_error("unrecognized live range");
     }
 
-    std::wstring locDesc;
-    if (FAILED(pManager->LocationToString(&pLiveRange->VariableLocation, &locDesc)))
+    std::wstring locExpr;
+    if (FAILED(pManager->LocationToString(&pLiveRange->VariableLocation, &locExpr)))
     {
-        throw std::runtime_error("unable to get location description for live range");
+        throw std::runtime_error("unable to get location expression for live range");
     }
 
-    return locDesc;
+    return locExpr;
 }
 
 void LiveRangeObject::SetLocation(_In_ const Object& /*liveRangeObject*/,
@@ -2310,7 +2310,7 @@ void LiveRangeObject::SetLocation(_In_ const Object& /*liveRangeObject*/,
     SvcSymbolLocation loc;
     if (FAILED(pManager->ParseLocation(location.c_str(), &loc)))
     {
-        throw std::invalid_argument("Unable to parse location description");
+        throw std::invalid_argument("Unable to parse location expression");
     }
 
     if (!liveRangeInfo.Variable->InternalSetLiveRangeLocation(liveRangeInfo.LiveRangeIdentity, 
